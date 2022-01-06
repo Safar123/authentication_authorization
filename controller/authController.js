@@ -23,3 +23,23 @@ exports.signUpUser = catchAsync(async(req,res,next)=>{
         user: newUser
     })
 });
+
+exports.logInUser = catchAsync(async(req,res,next)=>{
+    const {email, password} = req.body;
+
+    if(!email || !password){
+        return next (new AppError('Please provide valid email and password', 400))
+    }
+
+    const userExist = await User.findOne({email}).select('+password')
+
+    if(!userExist || ! await userExist.compareUserPassword(password, userExist.password) ){
+        return next(new AppError('User credintial does not match', 401))
+    }
+
+    res.status(200).json({
+        success:true,
+        userDetail:userExist
+    })
+
+})
