@@ -1,4 +1,5 @@
 const User = require('../model/userModel');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/asyncErrorHandler');
 
 exports.allUser = catchAsync(async(req,res,next)=>{
@@ -25,10 +26,7 @@ exports.singleUser = catchAsync(async (req,res,next)=>{
     const getUser = await User.findById(req.params.id)
 
     if(!getUser){
-        return res.status(400).json({
-            success:false,
-            message:'No user for given ID'
-        })
+        return next(new AppError(`No User for ${req.params.id} ID`, 400))
     }
 
     res.status(200).json({
@@ -40,10 +38,8 @@ exports.singleUser = catchAsync(async (req,res,next)=>{
 exports.changeUserInfo = catchAsync(async (req, res,next)=>{
 
     if(req.body.password || req.body.confirmPassword){
-        return res.status(400).json({
-            success:false,
-            message:'This route doesnt feature password change'
-        })
+        return next(new AppError('This route does not support password change', 400))
+    
     }
 
     const getUserInfo = await User.findByIdAndUpdate(req.params.id, req.body, {
@@ -52,10 +48,8 @@ exports.changeUserInfo = catchAsync(async (req, res,next)=>{
     })
 
     if(!getUserInfo) {
-        return req.status(400).json({
-            success:false,
-            message:'No user exist for given ID'
-        })
+        return next(new AppError(`No User for ${req.params.id} ID`))
+     
     }
 
     res.status(200).json({
@@ -69,11 +63,7 @@ exports.removeUser = catchAsync(async(req,res, next)=>{
     const userToBeRemoved = await User.findByIdAndDelete(req.params.id);
 
     if(!userToBeRemoved){
-
-       return res.status(400).json({
-            success:false,
-            message:'No user found for given ID'
-        })
+    return next(new AppError(`No User for ${req.params.id} ID`, 400))
     }
 
     res.status(204).json({
