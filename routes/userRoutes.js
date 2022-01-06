@@ -5,7 +5,7 @@ const userController = require('../controller/userController');
 
 userRouter.post('/signup', authConroller.signUpUser);
 userRouter.post('/login', authConroller.logInUser);
-userRouter.get(userController.allUser);
+userRouter.get('/', userController.allUser);
 
 
 userRouter.route('/:id').get(userController.singleUser)
