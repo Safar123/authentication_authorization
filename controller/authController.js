@@ -1,5 +1,6 @@
 const User = require('../model/userModel');
 const catchAsync = require('../utils/asyncErrorHandler');
+const AppError= require('../utils/appError')
 
 exports.signUpUser = catchAsync(async(req,res,next)=>{
 
@@ -8,15 +9,13 @@ exports.signUpUser = catchAsync(async(req,res,next)=>{
         email:req.body.email,
         password:req.body.password,
         confirmPassword:req.body.confirmPassword,
-        contactNumber:req.body.confirmPassword,
+        contactNumber:req.body.contactNumber,
         profileImage:req.body.profileImage
     });
 
     if(!newUser){
-        return res.status(500).json({
-            success:false,
-            message:'Something went wrong'
-        })
+        return next(new AppError('Something went wrong while creating user', 500))
+        
     }
 
     res.status(201).json({
