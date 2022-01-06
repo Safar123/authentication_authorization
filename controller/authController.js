@@ -1,6 +1,7 @@
 const User = require('../model/userModel');
+const catchAsync = require('../utils/asyncErrorHandler');
 
-exports.signUpUser = async(req,res,next)=>{
+exports.signUpUser = catchAsync(async(req,res,next)=>{
 
     const newUser = await User.create({
         username:req.body.username,
@@ -22,4 +23,4 @@ exports.signUpUser = async(req,res,next)=>{
         success:true,
         user: newUser
     })
-}
+});

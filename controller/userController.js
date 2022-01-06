@@ -1,6 +1,7 @@
 const User = require('../model/userModel');
+const catchAsync = require('../utils/asyncErrorHandler');
 
-exports.allUser = async(req,res,next)=>{
+exports.allUser = catchAsync(async(req,res,next)=>{
 
     const userList = await User.find();
 
@@ -17,9 +18,9 @@ exports.allUser = async(req,res,next)=>{
         userNumber:userList.length,
         user: userList
     })
-}
+})
 
-exports.singleUser = async (req,res,next)=>{
+exports.singleUser = catchAsync(async (req,res,next)=>{
 
     const getUser = await User.findById(req.params.id)
 
@@ -34,9 +35,9 @@ exports.singleUser = async (req,res,next)=>{
         success:true,
         user:getUser
     })
-}
+})
 
-exports.changeUserInfo = async (req, res,next)=>{
+exports.changeUserInfo = catchAsync(async (req, res,next)=>{
 
     if(req.body.password || req.body.confirmPassword){
         return res.status(400).json({
@@ -61,9 +62,9 @@ exports.changeUserInfo = async (req, res,next)=>{
         success:true,
         updateduser: getUserInfo
     })
-}
+})
 
-exports.removeUser = async(req,res, next)=>{
+exports.removeUser = catchAsync(async(req,res, next)=>{
 
     const userToBeRemoved = await User.findByIdAndDelete(req.params.id);
 
@@ -80,4 +81,4 @@ exports.removeUser = async(req,res, next)=>{
         message:'User has been removed successfully'
 
     })
-}
+})
