@@ -20,14 +20,16 @@ const userSchema = new mongoose.Schema({
 
     contactNumber:{
         type:Number,
-        required:[true, 'Please provide valid phone number']
+        required:[true, 'Please provide valid phone number'],
+        unique:true
 
     },
 
     password:{
         type:String,
         required:[true, 'Please set password of minimum 8 character'],
-        minlength:[8, 'Please set password of minimum 8 character']
+        minlength:[8, 'Please set password of minimum 8 character'],
+        select:false
     },
 
     confirmPassword:{
@@ -51,6 +53,10 @@ const userSchema = new mongoose.Schema({
         type:String
     }
 });
+
+userSchema.pre('save', async function(next){
+    this.confirmPassword =undefined;
+})
 
 const User = new mongoose.model('User', userSchema);
 module.exports = User;
