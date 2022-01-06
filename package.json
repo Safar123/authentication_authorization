@@ -1,0 +1,28 @@
+{
+  "name": "authentication_authorization",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start":"nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Safar123/authentication_authorization.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Safar123/authentication_authorization/issues"
+  },
+  "homepage": "https://github.com/Safar123/authentication_authorization#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.5",
+    "multer": "^1.4.4",
+    "validator": "^13.7.0"
+  }
+}
